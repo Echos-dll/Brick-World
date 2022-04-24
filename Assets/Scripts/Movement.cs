@@ -16,11 +16,13 @@ public class Movement : MonoBehaviour
 
     private Directions _direction; // false means left, true means right
     private Rigidbody _rigidbody;
+    private Transform _transform;
     private float _accTime;
     
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _transform = GetComponent<Transform>();
     }
 
     private void Update()
@@ -61,13 +63,12 @@ public class Movement : MonoBehaviour
         
         if (_rigidbody.velocity.magnitude > maxVelocity)
             _rigidbody.velocity = _rigidbody.velocity.normalized * maxVelocity;
-        
     }
     
     private void GoLeft()
     {
         _accTime += Time.deltaTime;
-        if (transform.position.x > -xLimit)
+        if (_transform.position.x > -xLimit)
         {
             _rigidbody.AddForce(Vector3.left * accelerationCurve.Evaluate(_accTime));
         }
@@ -80,7 +81,7 @@ public class Movement : MonoBehaviour
     private void GoRight()
     {
         _accTime += Time.deltaTime;
-        if (transform.position.x < xLimit)
+        if (_transform.position.x < xLimit)
         {
             _rigidbody.AddForce(Vector3.right * accelerationCurve.Evaluate(_accTime));
         }
