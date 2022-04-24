@@ -34,8 +34,27 @@ public class Stack : MonoBehaviour
                 _stackList[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 _stackList[i].GetComponent<Brick>().inStack = false;
                 _stackList[i].transform.parent = null;
+                stackCount.value -= 1;
             }
             _stackList.RemoveRange(index, _stackList.Count-index);
         }
+    }
+    
+    public void PlaceBrick()
+    {
+        if (_stackList.Count != 0)
+        {
+            var pos = new Vector3(transform.position.x, .5f, transform.position.z);
+            _stackList[^1].transform.position = pos;
+            _stackList[^1].transform.parent = null;
+            stackCount.value -= 1;
+            _stackList.RemoveAt(_stackList.Count - 1);
+        }
+        else
+        {
+            //Game end
+        }
+        
+        Debug.Log("Building bridge");
     }
 }
