@@ -45,7 +45,13 @@ public class Movement : MonoBehaviour
     private void FixedUpdate()
     {
         _accTime += Time.deltaTime;
-        _rigidbody.AddForce(Vector3.forward * 10);
+        
+        if (transform.position.x > xLimit || transform.position.x < -xLimit)
+        {
+            Debug.Log("GO STRAIGHT PLEASE");
+            GoStraight();
+        }
+        
         switch (_direction)
         {
             case Directions.Left:
@@ -58,11 +64,9 @@ public class Movement : MonoBehaviour
             
             case Directions.Straight:
                 _accTime = 0;
+                GoStraight();
                 break;
         }
-        
-        if (_rigidbody.velocity.magnitude > maxVelocity)
-            _rigidbody.velocity = _rigidbody.velocity.normalized * maxVelocity;
     }
     
     private void GoLeft()
@@ -70,11 +74,11 @@ public class Movement : MonoBehaviour
         _accTime += Time.deltaTime;
         if (_transform.position.x > -xLimit)
         {
-            _rigidbody.AddForce(Vector3.left * accelerationCurve.Evaluate(_accTime));
+            _rigidbody.velocity = Vector3.forward * maxVelocity + Vector3.left * accelerationCurve.Evaluate(_accTime) * maxVelocity;
         }
         else
         {
-            _rigidbody.velocity = Vector3.forward * maxVelocity;
+            GoStraight();
         }
     }
 
@@ -83,11 +87,16 @@ public class Movement : MonoBehaviour
         _accTime += Time.deltaTime;
         if (_transform.position.x < xLimit)
         {
-            _rigidbody.AddForce(Vector3.right * accelerationCurve.Evaluate(_accTime));
+            _rigidbody.velocity = Vector3.forward * maxVelocity + Vector3.right * accelerationCurve.Evaluate(_accTime) * maxVelocity;
         }
         else
         {
-            _rigidbody.velocity = Vector3.forward * maxVelocity;
+            GoStraight();
         }
+    }
+
+    private void GoStraight()
+    {
+        _rigidbody.velocity = Vector3.forward * maxVelocity;
     }
 }

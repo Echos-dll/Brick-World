@@ -44,7 +44,7 @@ public class Stack : MonoBehaviour
     {
         if (_stackList.Count != 0)
         {
-            var pos = new Vector3(transform.position.x, .5f, transform.position.z);
+            var pos = new Vector3(transform.position.x, .475f, transform.position.z);
             _stackList[^1].transform.position = pos;
             _stackList[^1].transform.parent = null;
             stackCount.value -= 1;

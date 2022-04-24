@@ -1,15 +1,19 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class Gate : MonoBehaviour
 {
-    public UnityEvent gameEvent;
+    [SerializeField] private TMP_Text gateText;
+    [SerializeField] private UnityEvent gameEvent;
+
     private int _gateValue;
 
     private void Awake()
     {
         _gateValue = Random.Range(20, 50);
+        gateText.text = " + " + _gateValue;
     }
 
     private void OnTriggerEnter(Collider other)
