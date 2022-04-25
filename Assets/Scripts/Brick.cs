@@ -20,6 +20,5 @@ public class Brick : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
-        Debug.Log("Destroyed");
     }
 }
