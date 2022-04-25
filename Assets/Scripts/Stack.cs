@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ public class Stack : MonoBehaviour
         var firstFloor = Instantiate(stackFloor, stackingParent.transform).GetComponent<Floor>();
         _currentFloor = firstFloor.floorCount;
         var pos = stackingParent.transform.position + 
-                  new Vector3(0, .4f +  stackingItem.transform.localScale.y * _currentFloor, 1f);
+                  new Vector3(0, 1f +  stackingItem.transform.localScale.y * _currentFloor, 0);
         firstFloor.transform.position = pos;
         _floorList.Add(firstFloor.gameObject);
     }
@@ -30,6 +29,7 @@ public class Stack : MonoBehaviour
             var brick = Instantiate(stackingItem, floor.childrens[floor.brickCount]);
             brick.transform.localPosition = Vector3.zero;
             brick.transform.localRotation = Quaternion.identity;
+            _brickList.Add(brick);
             floor.brickCount += 1;
         }
         else
@@ -45,39 +45,20 @@ public class Stack : MonoBehaviour
         newFloor.floorCount = _currentFloor + 1;
         _currentFloor = newFloor.floorCount;
         var pos = stackingParent.transform.position + 
-                  new Vector3(0, .4f +  stackingItem.transform.localScale.y * _currentFloor, 1f);
+                  new Vector3(0, 1f +  stackingItem.transform.localScale.y * _currentFloor, 0);
         newFloor.transform.position = pos;
         _floorList.Add(newFloor.gameObject);
         AddBrick();
     }
 
-    // public void RemoveItems(int index)
-    // {
-    //     if (_stackList[index] != null)
-    //     {
-    //         for (int i = index; i < _stackList.Count; i++)
-    //         {
-    //             _stackList[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-    //             _stackList[i].GetComponent<Brick>().inStack = false;
-    //             _stackList[i].transform.parent = null;
-    //             stackCount.value -= 1;
-    //         }
-    //         _stackList.RemoveRange(index, _stackList.Count-index);
-    //     }
-    //
-    //     Reorganize();
-    // }
-
-    public void RemoveReorganize()
+    public void RemoveItems(GameObject brick)
     {
-        
+        brick.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        brick.GetComponent<Brick>().inStack = false;
+        brick.transform.parent = null;
+        _brickList.Remove(brick);
     }
 
-    private void Reorganize()
-    {
-        
-    }
-    
     public void PlaceBrick()
     {
         if (_brickList.Count != 0)
@@ -85,13 +66,13 @@ public class Stack : MonoBehaviour
             var pos = new Vector3(transform.position.x, .475f, transform.position.z);
             _brickList[^1].transform.position = pos;
             _brickList[^1].transform.parent = null;
-            _brickList.RemoveAt(_brickList.Count - 1);
+            _brickList[^1].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            _brickList[^1].transform.localRotation = new Quaternion(0, 90, 0, 90);
+            _brickList.Remove(_brickList[^1]);
         }
         else
         {
             //Game end
         }
-        
-        Debug.Log("Building bridge");
     }
 }

@@ -13,25 +13,22 @@ public class Gate : MonoBehaviour
 
     private void Awake()
     {
-        _gateValue = Random.Range(100, 500);
+        _gateValue = Random.Range(100, 400);
         gateText.text = " + " + _gateValue;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+        StartCoroutine(StackUp());
+    }
+
+    private IEnumerator StackUp()
+    {
         for (int i = 0; i < _gateValue; i++)
         {
             gameEvent.Invoke();
+            yield return new WaitForSeconds(.01f);
         }
     }
-
-    // private IEnumerator test()
-    // {
-    //     for (int i = 0; i < _gateValue; i++)
-    //     {
-    //         gameEvent.Invoke();
-    //         yield return new WaitForSeconds(.0001f);
-    //     }
-    // }
 }
