@@ -9,7 +9,8 @@ public class Brick : MonoBehaviour
         if (!collision.gameObject.CompareTag("Obstacle")) return;
         if (inStack)
         {
-            GetComponentInParent<Stack>().RemoveItems(brickIndex);
+            GetComponentInParent<Stack>().RemoveReorganize();
+            //GetComponentInParent<Stack>().RemoveItems(brickIndex);
         }
     }
 }

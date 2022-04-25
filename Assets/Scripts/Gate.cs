@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +13,7 @@ public class Gate : MonoBehaviour
 
     private void Awake()
     {
-        _gateValue = Random.Range(20, 50);
+        _gateValue = Random.Range(100, 500);
         gateText.text = " + " + _gateValue;
     }
 
@@ -21,7 +22,16 @@ public class Gate : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         for (int i = 0; i < _gateValue; i++)
         {
-            gameEvent.Invoke();   
+            gameEvent.Invoke();
         }
     }
+
+    // private IEnumerator test()
+    // {
+    //     for (int i = 0; i < _gateValue; i++)
+    //     {
+    //         gameEvent.Invoke();
+    //         yield return new WaitForSeconds(.0001f);
+    //     }
+    // }
 }
