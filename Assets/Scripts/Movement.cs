@@ -48,7 +48,6 @@ public class Movement : MonoBehaviour
         
         if (transform.position.x > xLimit || transform.position.x < -xLimit)
         {
-            Debug.Log("GO STRAIGHT PLEASE");
             GoStraight();
         }
         
