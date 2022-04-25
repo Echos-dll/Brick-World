@@ -11,8 +11,15 @@ public class Brick : MonoBehaviour
         if (!collision.gameObject.CompareTag("Obstacle")) return;
         if (inStack)
         {
-            //GetComponentInParent<Stack>().RemoveReorganize();
             GetComponentInParent<Stack>().RemoveItems(gameObject);
+            StartCoroutine(DestroyAfter());
         }
+    }
+
+    private IEnumerator DestroyAfter()
+    {
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
+        Debug.Log("Destroyed");
     }
 }
